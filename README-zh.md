@@ -1,8 +1,16 @@
-# DeepSeek 联网搜索 Skill
+# DeepSeek 联网搜索与网页获取 Skill
 
 [English](README.md) | [简体中文](README-zh.md)
 
-这个 Codex skill 使用 DeepSeek 官方 Search 和 Fetch API：既可以检索实时网页并返回结构化来源，也可以将已知 HTTP/HTTPS 网页获取为标题和 Markdown 正文。接口本身不会生成答案。
+这个可移植 agent skill 使用 DeepSeek 官方 Search 和 Fetch API：既可以检索实时网页并返回结构化来源，也可以将已知 HTTP/HTTPS 网页获取为标题和 Markdown 正文。接口本身不会生成答案。
+
+## 兼容性
+
+该 skill 采用可移植的 `SKILL.md` skill 格式，已在 Codex、Claude Code 和 OpenCode 中成功使用。其他 agent 只要能够加载 `SKILL.md` 并执行 shell 命令或内置脚本，也可以使用它。
+
+将完整的 `deepseek-search` 目录安装或复制到目标 agent 支持的 skill 位置。`scripts/` 和 `references/` 必须与 `SKILL.md` 一起保留，因为说明文件会按 skill 目录解析这些相对路径。
+
+该 skill 不依赖 OpenAI 专属运行时元数据。原有的 `agents/openai*.yaml` 界面文件已经移除，因为它们不会影响 Claude Code、OpenCode 或可执行客户端。
 
 ## 文件内容
 
@@ -18,8 +26,6 @@
 | [scripts/deepseek-fetch.sh](scripts/deepseek-fetch.sh) | 使用 `curl` 和 `jq` 的 Bash 网页获取客户端 |
 | [references/api.md](references/api.md) | 英文 Search 和 Fetch API 参考 |
 | [references/api-zh.md](references/api-zh.md) | 中文 Search 和 Fetch API 参考 |
-| [agents/openai.yaml](agents/openai.yaml) | 英文界面元数据 |
-| [agents/openai-zh.yaml](agents/openai-zh.yaml) | 中文界面元数据 |
 
 ## 选择客户端
 

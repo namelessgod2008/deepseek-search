@@ -1,4 +1,0 @@
-interface:
-  display_name: "DeepSeek 联网搜索与网页获取"
-  short_description: "使用 DeepSeek 检索实时网页并将已知页面获取为 Markdown"
-  default_prompt: "使用 $deepseek-search 检索最新网页资料或获取已知页面的 Markdown 正文，并整理带来源的答案。"

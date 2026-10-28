@@ -1,8 +1,16 @@
-# DeepSeek Search Skill
+# DeepSeek Search and Fetch Skill
 
 [English](README.md) | [简体中文](README-zh.md)
 
-This Codex skill uses the official DeepSeek Search and Fetch APIs. It searches the live web for structured sources and can fetch a known HTTP or HTTPS page as its title and Markdown content. It does not generate an answer by itself.
+This portable agent skill uses the official DeepSeek Search and Fetch APIs. It searches the live web for structured sources and can fetch a known HTTP or HTTPS page as its title and Markdown content. It does not generate an answer by itself.
+
+## Compatibility
+
+This skill follows the portable `SKILL.md` skill format. It has been used successfully with Codex, Claude Code, and OpenCode. Other agents can use it when they can load `SKILL.md` and execute shell commands or the bundled scripts.
+
+Install or copy the complete `deepseek-search` directory into the skill location supported by the target agent. Keep `scripts/` and `references/` alongside `SKILL.md`, because the instructions resolve them relative to the skill directory.
+
+The skill does not depend on OpenAI-specific runtime metadata. The former `agents/openai*.yaml` UI files have been removed because they do not affect Claude Code, OpenCode, or the executable clients.
 
 ## Contents
 
@@ -18,8 +26,6 @@ This Codex skill uses the official DeepSeek Search and Fetch APIs. It searches t
 | [scripts/deepseek-fetch.sh](scripts/deepseek-fetch.sh) | Bash page fetch client using `curl` and `jq` |
 | [references/api.md](references/api.md) | English Search and Fetch API reference |
 | [references/api-zh.md](references/api-zh.md) | Chinese Search and Fetch API reference |
-| [agents/openai.yaml](agents/openai.yaml) | English UI metadata |
-| [agents/openai-zh.yaml](agents/openai-zh.yaml) | Chinese UI metadata |
 
 ## Select a client
 
