@@ -1,0 +1,4 @@
+interface:
+  display_name: "DeepSeek 联网搜索"
+  short_description: "通过 DeepSeek Search API 检索实时网页和可核验来源"
+  default_prompt: "使用 $deepseek-search 检索最新网页资料并整理带来源的答案。"

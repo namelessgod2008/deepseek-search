@@ -1,6 +1,8 @@
-# DeepSeek Search API 参考
+[English](api.md) | [简体中文](api-zh.md)
 
-## 请求
+# DeepSeek Search API Reference
+
+## Request
 
 ```text
 POST https://api.deepseek.com/v1/tools/search
@@ -8,39 +10,39 @@ Authorization: Bearer <DEEPSEEK_API_KEY>
 Content-Type: application/json
 ```
 
-必需字段：
+Request fields:
 
-- `query`：字符串，1 至 128 个 Unicode 字符，不能全为空白。
-- `count`：可选整数，默认 10，范围 1 至 50。
-- `ori_question`：可选原始问题，1 至 128 个字符。
-- `localization`：可选 IP 地址，用于本地化结果。
-- `need_content`：可选布尔值，默认 false；为 true 时请求网页正文。
+- `query`: required string containing 1 to 128 Unicode characters. Whitespace-only queries are invalid.
+- `count`: optional integer from 1 to 50; defaults to 10.
+- `ori_question`: optional original question containing 1 to 128 characters.
+- `localization`: optional IP address used to localize results.
+- `need_content`: optional boolean; defaults to false. When true, request page bodies.
 
-成功的响应包含 `results` 数组。每条结果通常包括：
+A successful response contains a `results` array. Each result commonly includes:
 
-- `rerank_score`：相关性、权威性、时效性的综合分数。
-- `title`、`url`、`snippet`、`summary`：标题、原始链接和摘要。
-- `content`：网页正文；`need_content` 为 false 或正文不可用时为空。
-- `site_name`、`site_icon`、`date`、`authority`：站点和时效元数据。
+- `rerank_score`: a combined relevance, authority, and freshness score.
+- `title`, `url`, `snippet`, `summary`: title, source URL, and summaries.
+- `content`: page body. It is empty when `need_content` is false or content is unavailable.
+- `site_name`, `site_icon`, `date`, `authority`: site and freshness metadata.
 
-## 查询运算符
+## Query Operators
 
-- `site:example.com` 限定站点；多个站点可用 `OR site:` 组合。
-- `-site:example.com` 排除站点。
-- `"exact phrase"` 匹配精确短语。
-- `-term` 或 `-"exact phrase"` 排除词语或短语。
-- `lang:zh,en` 限定语言。
-- `after:2025`、`after:2025-01-01` 限定发布日期下限。
-- `before:2026`、`before:2026-06-01` 限定发布日期上限。
+- `site:example.com` restricts results to a site. Combine sites with `OR site:`.
+- `-site:example.com` excludes a site.
+- `"exact phrase"` matches an exact phrase.
+- `-term` or `-"exact phrase"` excludes a term or phrase.
+- `lang:zh,en` restricts language codes.
+- `after:2025` and `after:2025-01-01` set an inclusive publication-date lower bound.
+- `before:2026` and `before:2026-06-01` set an exclusive publication-date upper bound.
 
-## 错误处理
+## Error Handling
 
-- `400`：请求头、JSON 或字段值无效；修正请求。
-- `401`：Key 缺失或无效；检查凭据。
-- `402`：账户余额不足；不要盲目重试。
-- `408`、`429`、`500`、`504`：短暂故障或限流；可退避重试。
-- 其他 `4xx`：先修正请求再重试。
+- `400`: invalid headers, JSON, or field values; correct the request.
+- `401`: missing or invalid key; check credentials.
+- `402`: insufficient account balance; do not retry blindly.
+- `408`, `429`, `500`, and `504`: transient failure or rate limiting; bounded backoff retry is appropriate.
+- Other `4xx`: correct the request before retrying.
 
-空 `results` 数组是正常结果，不应被解释为 API 故障。
+An empty `results` array is a normal response and does not indicate an API failure.
 
-官方文档：<https://api-docs.deepseek.com/guides/search>
+Official documentation: <https://api-docs.deepseek.com/guides/search>
