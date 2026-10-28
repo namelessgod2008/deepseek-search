@@ -1,4 +1,4 @@
 interface:
-  display_name: "DeepSeek Web Search"
-  short_description: "Search live web results and verifiable sources with the DeepSeek Search API"
-  default_prompt: "Use $deepseek-search to find current web sources and produce an answer with citations."
+  display_name: "DeepSeek Web Search and Fetch"
+  short_description: "Search live web results and fetch pages as Markdown with DeepSeek"
+  default_prompt: "Use $deepseek-search to find current web sources or fetch a known page, then answer with citations."
