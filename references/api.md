@@ -8,22 +8,39 @@
 POST https://api.deepseek.com/v1/tools/search
 Authorization: Bearer <DEEPSEEK_API_KEY>
 Content-Type: application/json
+Accept: application/json
 ```
+
+The `Accept` header is optional but explicitly requests a JSON response.
+
+Any HTTPS and JSON capable client can call this endpoint. The skill bundles Python, Node.js, and Bash with curl implementations; Bash does not provide HTTPS or JSON handling by itself. GNU wget, Ruby, Perl, Java, and Go can also implement the request but are outside the skill's supported client set.
 
 Request fields:
 
-- `query`: required string containing 1 to 128 Unicode characters. Whitespace-only queries are invalid.
+- `query`: required string containing 1 to 128 Unicode characters. Whitespace-only queries are invalid. Operators such as `site:`, `-site:`, and quoted phrases are supported.
 - `count`: optional integer from 1 to 50; defaults to 10.
-- `ori_question`: optional original question containing 1 to 128 characters.
-- `localization`: optional IP address used to localize results.
-- `need_content`: optional boolean; defaults to false. When true, request page bodies.
+- `ori_question`: optional original question containing 1 to 128 Unicode characters. It can improve query understanding. `null` is treated as not provided.
+- `localization`: optional string containing an IP address used to localize results; defaults to an empty string.
+- `need_content`: optional boolean; defaults to false. When true, request page bodies. When false, `content` is always an empty string.
 
-A successful response contains a `results` array. Each result commonly includes:
+## Response
 
-- `rerank_score`: a combined relevance, authority, and freshness score.
-- `title`, `url`, `snippet`, `summary`: title, source URL, and summaries.
-- `content`: page body. It is empty when `need_content` is false or content is unavailable.
-- `site_name`, `site_icon`, `date`, `authority`: site and freshness metadata.
+A successful response contains a required `results` array. It is empty when the query has no matches. Each result contains these fields:
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `rerank_score` | float | Combined relevance, authority, and freshness score from 0 to 3. Scores of 1.5 or higher are considered high quality. |
+| `title` | string | Result title. |
+| `url` | string | Source URL. |
+| `snippet` | string | Short query-related summary, typically 100 to 200 characters, intended for UI display. |
+| `summary` | string | Longer query-related summary, typically 600 to 800 characters, intended for model use. |
+| `content` | string | Page body. Empty when `need_content` is false or content is unavailable. |
+| `site_name` | string or null | Site name, or `null` when unavailable. |
+| `site_icon` | string or null | Site icon URL, or `null` when unavailable. |
+| `date` | RFC 3339 UTC date-time or null | Publication time, or `null` when unknown. |
+| `authority` | integer | Authority tier from -1 to 4. `-1` means unknown; 3 or higher indicates a highly authoritative source. |
+
+Field lengths in `snippet` and `summary` are typical values, not strict response constraints. Missing optional result metadata is represented by `null`, not by omitting the field.
 
 ## Query Operators
 

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import sys
 import urllib.error
@@ -113,6 +114,8 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         )
     if not 1 <= args.count <= 50:
         raise ValueError("--count must be between 1 and 50 / --count 必须在 1 至 50 之间")
+    if not math.isfinite(args.timeout) or args.timeout <= 0:
+        raise ValueError("--timeout must be greater than zero / --timeout 必须大于零")
 
     payload: dict[str, Any] = {"query": query, "count": args.count}
     if args.ori_question is not None:
